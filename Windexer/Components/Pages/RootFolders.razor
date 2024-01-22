@@ -1,0 +1,91 @@
+﻿@page "/RootFolders"
+
+<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center">
+    <div style="margin-bottom: 2em;">
+        <RadzenMenu>
+            <RadzenMenuItem Text="Add a folder" Icon="source" Click="AddFolder" />
+            <RadzenMenuItem Text="Remove selected folder(s)" Icon="source" Click="DeleteSelected" Disabled="@(!_selectedRootFolders.Any())"  />
+            <RadzenMenuItem Text="Enable selected folder(s)" Icon="source" Click="EnableSelected" Disabled="@(!_selectedRootFolders.Any())"  />
+            <RadzenMenuItem Text="Disable selected folder(s)" Icon="source" Click="DisableSelected" Disabled="@(!_selectedRootFolders.Any())"  />
+            <RadzenMenuItem Text="Purge selected folder(s)" Icon="source" Click="PurgeSelected" Disabled="@(!_selectedRootFolders.Any())"  />
+            <RadzenMenuItem Text="Index selected folder(s)" Icon="source" Click="IndexSelected" Disabled="@(!_selectedRootFolders.Any())"  />
+        </RadzenMenu>
+    </div>
+</RadzenStack>
+
+<RadzenDataGrid 
+    @ref="_datagrid"
+    TItem="RootFolder"
+    Data="@_pageItems"
+    LoadData="@LoadData"
+    IsLoading="@_isLoading"
+    Count="@_itemsCount"
+    @bind-Value=@_selectedRootFolders
+    SelectionMode="DataGridSelectionMode.Multiple" 
+    AllowRowSelectOnRowClick="true"
+    AllowFiltering="true"    
+    FilterPopupRenderMode="PopupRenderMode.OnDemand" 
+    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+    AllowColumnResize="true" 
+    AllowAlternatingRows="true" 
+    AllowSorting="true" 
+    PageSize="50" 
+    AllowPaging="true"
+    ShowPagingSummary="true"    
+    ColumnWidth="300px"
+>
+    <Columns>
+        <RadzenDataGridColumn TItem="RootFolder" Width="60px" Sortable="false" Filterable="false">
+            <HeaderTemplate>
+                <RadzenCheckBox TValue="bool" Value="@AllSelected" Change="@ToggleSelectAll"/>
+            </HeaderTemplate>
+            <Template Context="data">
+                <RadzenCheckBox TValue="bool" Value="@IsSelected(data)" Change="@(_ => ToggleRow(data))" />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="RootFolder" Property="Enabled" Filterable="true" Title="Enabled" Width="80px" Visible="true" >
+            <Template Context="rootFolder">
+                @if (rootFolder.Enabled)
+                {
+                    <RadzenIcon Icon="flash_on" />
+                }
+                else
+                {
+                    <RadzenIcon Icon="flash_off" />
+                }
+            </Template>
+        </RadzenDataGridColumn>        
+        <RadzenDataGridColumn TItem="RootFolder" Property="Name" Filterable="true" Title="Name" Width="200px" />
+        <RadzenDataGridColumn TItem="RootFolder" Property="Path" Filterable="true" Title="Path" Width="200px" />
+        <RadzenDataGridColumn TItem="RootFolder" Property="IndexationDate" Filterable="true" Title="Last indexation" Width="200px" Visible="true">
+            <Template Context="rootFolder">               
+                @if (rootFolder.IndexationDate.HasValue)
+                {
+                    <span>@rootFolder.IndexationDate</span>
+                }
+                else
+                {
+                    <span>Never</span>
+                }
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="RootFolder" Property="StillFound" Filterable="true" Title="Found" Width="100px" Visible="true">
+            <Template Context="rootFolder">
+                @if (!rootFolder.StillFound.HasValue)
+                {
+                    <RadzenIcon Icon="question_mark" />
+                }
+                else if (rootFolder.StillFound.Value)
+                {
+                    <RadzenIcon Icon="visibility" />
+                }
+                else
+                {
+                    <RadzenIcon Icon="visibility_off" />
+                }
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+

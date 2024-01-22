@@ -1,0 +1,15 @@
+﻿<RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem" Class="rz-mt-4 rz-p-4 rz-border-radius-1" @attributes=@Attributes Style="border: var(--rz-grid-cell-border); height: 100%;" >
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+        <RadzenText TextStyle="TextStyle.Subtitle1" TagName="TagName.P" Class="rz-m-0">Messages</RadzenText>
+        <RadzenButton Click=@OnPauseClick Text="@(_paused ? "Unpause messages" : "Pause messages")" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Small" />
+        <RadzenButton Click=@OnClearClick Text="Clear messages" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Small" />
+    </RadzenStack>
+    <RadzenStack Orientation="Orientation.Vertical" Gap="0" ID="event-console" Class="rz-pt-1" Style="border-top: var(--rz-grid-cell-border); min-height: 2rem; overflow: auto;">
+    @foreach(var message in _messages)
+    {
+        <RadzenAlert ShowIcon="false" Variant="Variant.Flat" AlertStyle="@message.Style" Size="AlertSize.ExtraSmall" Shade="Shade.Lighter" AllowClose="false" Style="font-size: 0.75rem">
+            <span Style="opacity: 0.6;">@message.Date.ToString("HH:mm:ss.ff")</span> @message.Text
+        </RadzenAlert>
+    }
+    </RadzenStack>
+</RadzenStack>

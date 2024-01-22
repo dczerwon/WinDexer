@@ -1,0 +1,72 @@
+﻿@page "/"
+
+<RadzenDataGrid 
+    @ref="_datagrid"
+    TItem="IndexEntry"
+    Data="@_pageItems"
+    LoadData="@LoadData"
+    IsLoading=@_isLoading 
+    Count="@_itemsCount"
+    RowRender="@RowRender"
+    LoadChildData="@LoadChildData" 
+    AllowRowSelectOnRowClick="true"
+    AllowFiltering="true"    
+    FilterPopupRenderMode="PopupRenderMode.OnDemand" 
+    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+    AllowColumnResize="true" 
+    AllowAlternatingRows="true" 
+    AllowSorting="true" 
+    PageSize="50" 
+    AllowPaging="true"
+    ShowPagingSummary="true"    
+    ColumnWidth="300px"
+>
+    <Columns>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="IsFolder" Filterable="true" Title="Type" Width="100px" Visible="true">
+            <Template Context="indexEntry">
+                @if (indexEntry.IsFolder)
+                {
+                    <RadzenIcon Icon="folder" />
+                }
+                else
+                {
+                    <RadzenIcon Icon="description" />
+                }
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Name" Filterable="true" Title="Name" Width="100px" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Extension" Filterable="true" Title="Extension" Width="70px" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Path" Filterable="true" Title="Path" Width="500px" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Root.Path" Filterable="true" Title="Root Folder" Width="500px" Visible="true"/>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="RelativePath" Filterable="true" Title="Relative Path" Width="500px" Visible="true" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="LastSeen" Filterable="true" Title="Last seen" Width="200px" Visible="true">
+            <Template Context="indexEntry">
+                @if (indexEntry.LastSeen.HasValue)
+                {
+                    <span>@indexEntry.LastSeen</span>
+                }
+                else
+                {
+                    <span>Never</span>
+                }
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="StillFound" Filterable="true" Title="Still Found" Width="100px" Visible="true">
+            <Template Context="indexEntry">
+                @if (indexEntry.StillFound)
+                {
+                    <RadzenIcon Icon="visibility" />
+                }
+                else
+                {
+                    <RadzenIcon Icon="visibility_off" />
+                }
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Size" Filterable="true" Title="Size" Width="250px" Visible="true" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="FilesCount" Filterable="true" Title="Files Count" Width="250px" Visible="true" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="FoldersCount" Filterable="true" Title="Folders Count" Width="250px" Visible="true" />
+    </Columns>
+</RadzenDataGrid>
+
+
