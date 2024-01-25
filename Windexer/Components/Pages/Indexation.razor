@@ -1,10 +1,6 @@
 ﻿@page "/Indexation"
 
-<RadzenButton Click="ResetDb" Text="Reset DB" />
-
-<RadzenButton Click="AddFakeData" Text="Add Fake Test Data" />
-
-<RadzenButton Click="StartIndexation" Text="Start Indexation" />
+<RadzenButton Click="StartIndexation" Text="Start Indexation" Disabled="IndexationManager.IsIndexing"/>
 
 <EventConsole @ref="_console" />
 

@@ -4,18 +4,37 @@ using Windexer.Model.Entities;
 
 namespace Windexer.Core.Managers;
 
+public enum MessageLevel
+{
+    Debug,
+    Info,
+    Success,
+    Warning, 
+    Error
+}
+
 public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntriesManager _indexEntriesManager, DbManager _dbManager)
 {
-    private Dictionary<string, IndexEntry> _existingEntriesByPath;
-    public static DateTime IndexationStart => _indexationStart ?? DateTime.Now;
+    private Dictionary<string, IndexEntry> _existingEntriesByPath = null!;
+    public static DateTime? IndexationStart => _indexationStart;
     private static DateTime? _indexationStart;
+    public static bool IsIndexing { get; private set; }
+    public Action<string,string?, MessageLevel>? OnIndexationMessage { get; set; }
+    public List<(string msgA, string? msgB, MessageLevel level)> ImportantMessages { get; } = new ();
 
-    public Action<string,string?> OnIndexationMessage { get; set; }
-
-    private async Task SendIndexationMessageAsync(string msgA, string? msgB = null)
+    private async Task SendIndexationMessage(string msgA, string? msgB = null, MessageLevel level = MessageLevel.Info)
     {
-        TTrace.Debug.Send(msgA, msgB);
-        OnIndexationMessage?.Invoke(msgA, msgB);
+        if (level < MessageLevel.Warning)
+            TTrace.Debug.Send(msgA, msgB);
+        else if (level == MessageLevel.Warning)
+            TTrace.Warning.Send(msgA, msgB);
+        else if (level == MessageLevel.Error)
+            TTrace.Error.Send(msgA, msgB);
+
+        if (level != MessageLevel.Info && level != MessageLevel.Debug)
+            ImportantMessages.Add((msgA, msgB, level));
+
+        OnIndexationMessage?.Invoke(msgA, msgB, level);
         await Task.Delay(10);
     }
 
@@ -51,12 +70,13 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
 
     public async Task RunIndexation(IEnumerable<RootFolder>? rootFolders = null)
     {
-        await SendIndexationMessageAsync("Start Indexation");
+        IsIndexing = true;
+        await SendIndexationMessage("Start Indexation", level: MessageLevel.Success);
         var timer = Stopwatch.StartNew();
         _indexationStart = DateTime.Now;
         if (rootFolders == null)
         {
-            var result = await _rootFoldersManager.GetAsync();
+            var result = await _rootFoldersManager.GetAsync(adaptQuery: q_ => q_.Where(r_ => r_.Enabled));
             rootFolders = result.Data;
         }
         
@@ -70,20 +90,19 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
             var indexEntry = await IndexFolder(rootFolder, null, null);
             rootFolder.StillFound = indexEntry.StillFound;
             rootFolder.IndexationDate = IndexationStart;
-            await SendIndexationMessageAsync("Save indexed data");
+            await SendIndexationMessage("Save indexed data");
             await _dbManager.SaveChangesAsync();
         }
 
         timer.Stop();
-        await SendIndexationMessageAsync($"Indexation finished in {timer.Elapsed}");
+        await SendIndexationMessage($"Indexation finished in {timer.Elapsed}", level: MessageLevel.Success);
+        IsIndexing = false;
     }
 
     private async Task<IndexEntry> IndexFolder(RootFolder root, DirectoryInfo? folder, IndexEntry? parent)
     {
-//        await Task.Delay(10);
-
         folder ??= new DirectoryInfo(root.Path);
-        await SendIndexationMessageAsync("Start folder indexation", folder.FullName);
+        await SendIndexationMessage("Start folder indexation", folder.FullName);
 
         var relativePath = Path.GetRelativePath(root.Path, folder.FullName);
         if (_existingEntriesByPath.TryGetValue(relativePath, out var indexEntry))
@@ -100,10 +119,11 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
         catch (Exception e)
         {
             TTrace.Error.SendObject("Exception !", e);
+            await SendIndexationMessage("Can't list files", e.Message, MessageLevel.Error);
         }
 
         if (files.Length > 0)
-            await SendIndexationMessageAsync($"Index {files.Length} files");
+            await SendIndexationMessage($"Index {files.Length} files");
 
         var count = 1;
         foreach (var file in files)
@@ -112,11 +132,11 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
             if (_existingEntriesByPath.TryGetValue(relativeFilePath, out var existingEntry))
                 _indexEntriesManager.Update(existingEntry, file.Exists, file.Length);
             else
-                _indexEntriesManager.AddAsync(file, file.Length, root, indexEntry);
+                await _indexEntriesManager.AddAsync(file, file.Length, root, indexEntry);
 
             indexEntry.Size += file.Length;
             indexEntry.FilesCount++;
-            await SendIndexationMessageAsync($"File {count++} on {files.Length}", file.FullName);
+            await SendIndexationMessage($"File {count++} on {files.Length}", file.FullName);
         }
 
         DirectoryInfo[] subFolders = [];
@@ -127,10 +147,11 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
         catch (Exception e)
         {
             TTrace.Error.SendObject("Exception !", e);
+            await SendIndexationMessage("Can't list subfolders", e.Message, MessageLevel.Error);
         }
 
         if (subFolders.Length > 0)
-            await SendIndexationMessageAsync($"Index {subFolders.Length} subfolders");
+            await SendIndexationMessage($"Index {subFolders.Length} subfolders");
 
         foreach (var subfolder in subFolders)
         {
@@ -142,7 +163,7 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
         }
         indexEntry.FoldersCount += subFolders.Length;
 
-        await SendIndexationMessageAsync("Folder indexation finished", folder.FullName);
+        await SendIndexationMessage("Folder indexation finished", folder.FullName);
         return indexEntry;
     }
 

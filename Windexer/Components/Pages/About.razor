@@ -1,0 +1,21 @@
+﻿@page "/About"
+
+<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Start" Gap="2em">
+    <div>WinDexer</div>
+    <div>By Ryo Saeba</div>
+    <div>Version : @GetVersion()</div>
+    <div>GitHub Project : <RadzenLink Path="https://github.com/dczerwon/WinDexer" Text="https://github.com/dczerwon/WinDexer"/></div>
+</RadzenStack>
+
+@code
+{
+    private string GetVersion()
+    {
+        var suffix = "";
+#if DEBUG
+        suffix = " (Beta)";
+#endif
+        return AppInfo.Current.VersionString + suffix;
+    }
+}
+

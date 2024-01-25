@@ -3,12 +3,11 @@ using TraceTool;
 using Windexer.Core.Managers;
 using Windexer.Services;
 using Windexer.Components.Shared;
-using Radzen.Blazor;
 using Radzen;
 
 namespace Windexer.Components.Pages;
 
-public partial class Indexation: ComponentBase
+public partial class Indexation: ComponentBase, IDisposable
 {
     [Inject] public IndexationManager IdxManager { get; set; }
     [Inject] public DbManager DatabaseManager { get; set; }
@@ -18,17 +17,46 @@ public partial class Indexation: ComponentBase
 
     protected override Task OnInitializedAsync()
     {
-        IdxManager.OnIndexationMessage = (msgA, msgB) =>
-        {
-            var message = msgA;
-            if (!string.IsNullOrEmpty(msgB))
-                message += ": " + msgB;
-
-            _console.Log(message);
-        };
+        IdxManager.OnIndexationMessage = LogMessage;
 
         return base.OnInitializedAsync();
     }
+
+    private void LogMessage(string msgA, string? msgB, MessageLevel lvl)
+    {
+        var message = msgA;
+        if (!string.IsNullOrEmpty(msgB))
+            message += ": " + msgB;
+
+        var alertStyle = lvl switch
+        {
+            MessageLevel.Debug => AlertStyle.Dark,
+            MessageLevel.Info => AlertStyle.Base,
+            MessageLevel.Success => AlertStyle.Success,
+            MessageLevel.Warning => AlertStyle.Warning,
+            MessageLevel.Error => AlertStyle.Danger,
+            _ => throw new NotImplementedException() // Will happen only if badly developped
+        };
+
+        _console.Log(message, alertStyle);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && IndexationManager.IsIndexing && IndexationManager.IndexationStart.HasValue)
+        {
+            _console.Clear();
+
+            foreach (var message in IdxManager.ImportantMessages)
+                LogMessage(message.msgA, message.msgB, message.level);
+
+            _console.AddTruncateMessage();
+        }
+       
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+
 
     public async Task ResetDb()
     {
@@ -51,5 +79,10 @@ public partial class Indexation: ComponentBase
         await DatabaseManager.AddFakeData();
         TTrace.Debug.Send("Leave", "Home.AddFakeData");
 
+    }
+
+    public void Dispose()
+    {
+        IdxManager.OnIndexationMessage = null;
     }
 }

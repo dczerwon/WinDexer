@@ -60,7 +60,11 @@
                 }
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Size" Filterable="true" Title="Size" Width="250px" Visible="true" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Size" Filterable="true" Title="Size" Width="250px" Visible="true">
+            <Template Context="indexEntry">
+                @AsReadableSize(indexEntry.Size)
+            </Template>
+        </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="IndexEntry" Property="FilesCount" Filterable="true" Title="Files Count" Width="250px" Visible="true" />
         <RadzenDataGridColumn TItem="IndexEntry" Property="FoldersCount" Filterable="true" Title="Folders Count" Width="250px" Visible="true" />
     </Columns>

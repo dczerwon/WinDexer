@@ -25,4 +25,17 @@ public partial class IndexEntriesList : ComponentBase
         _isLoading = false;
     }
 
+    public string AsReadableSize(long size)
+    {
+        var units = new [] { "B", "kB", "MB", "GB", "TB" };
+        var unitIdx = 0;
+        while (size > 1024 && unitIdx < units.Length)
+        {
+            size /= 1024;
+            unitIdx++;
+        }
+
+        return $"{size} {units[unitIdx]}";
+    }
+
 }

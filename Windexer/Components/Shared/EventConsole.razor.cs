@@ -9,6 +9,7 @@ namespace Windexer.Components.Shared
         [Inject] IJSRuntime JSRuntime { get; set; }
 
         private bool _paused;
+        private bool _truncateMessageAdded;
         private class Message
         {
             public DateTime Date { get; set; }
@@ -19,7 +20,7 @@ namespace Windexer.Components.Shared
 
         [Parameter(CaptureUnmatchedValues = true)]
         public IDictionary<string, object> Attributes { get; set; }
-        IList<Message> _messages = new List<Message>();
+        List<Message> _messages = new List<Message>();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -39,6 +40,7 @@ namespace Windexer.Components.Shared
         public void Clear()
         {
             _messages.Clear();
+            _truncateMessageAdded = false;
             if (!_paused)
                 InvokeAsync(StateHasChanged);
         }
@@ -56,12 +58,27 @@ namespace Windexer.Components.Shared
 
             if (_messages.Count > 200)
             {
+                AddTruncateMessage();
+
                 var nbToDelete = _messages.Count - 200;
                 var toDelete = _messages.Where(m_ => m_.CanBeDeleted).Take(nbToDelete);
                 _messages = _messages.Except(toDelete).ToList();
+                
             }
             if (!_paused)
                 InvokeAsync(StateHasChanged);
+        }
+
+        public void AddTruncateMessage()
+        {
+            if (_truncateMessageAdded)
+                return;
+            
+            _truncateMessageAdded = true;
+            var truncPos = _messages.FindIndex(i_ => i_.CanBeDeleted);
+            if (truncPos < 0)
+                truncPos = _messages.Count;
+            _messages.Insert(truncPos, new Message { Date = DateTime.Now, Text = "...", CanBeDeleted = false, Style = AlertStyle.Base });
         }
     }
 }
