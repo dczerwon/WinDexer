@@ -64,10 +64,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <MauiImage Include="Resources\Splash\splash.png" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
