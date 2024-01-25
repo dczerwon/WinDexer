@@ -1,0 +1,5 @@
+﻿@if (IndexationManager.IndexationStart.HasValue)
+{
+    <span>Indexations tarted on @IndexationManager.IndexationStart.Value.ToString("d") at @IndexationManager.IndexationStart.Value.ToString("t")</span>
+    <span>@FilesLabel found in @FoldersLabel</span>
+}

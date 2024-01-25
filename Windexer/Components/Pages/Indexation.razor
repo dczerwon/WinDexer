@@ -1,6 +1,9 @@
 ﻿@page "/Indexation"
 
-<RadzenButton Click="StartIndexation" Text="Start Indexation" Disabled="IndexationManager.IsIndexing"/>
+<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Normal" Gap="2em" >
+    <RadzenButton Click="StartIndexation" Text="Start Indexation" Disabled="IndexationManager.IsIndexing"/>
+    <IndexationStatus />
+</RadzenStack>
 
 <EventConsole @ref="_console" />
 

@@ -11,6 +11,7 @@ public partial class IndexEntriesList : ComponentBase
     [Inject] public IndexEntriesManager IdxEntriesManager { get; set; }
 
     private List<IndexEntry> _pageItems;
+    private IList<IndexEntry> _selectedItems = new List<IndexEntry>();
     private bool _isLoading = false;
     private int _itemsCount = 0;
 
@@ -25,8 +26,9 @@ public partial class IndexEntriesList : ComponentBase
         _isLoading = false;
     }
 
-    public string AsReadableSize(long size)
-    {
+    public string AsReadableSize(long nbBytes)
+    {        
+        double size = nbBytes;
         var units = new [] { "B", "kB", "MB", "GB", "TB" };
         var unitIdx = 0;
         while (size > 1024 && unitIdx < units.Length)
@@ -35,7 +37,6 @@ public partial class IndexEntriesList : ComponentBase
             unitIdx++;
         }
 
-        return $"{size} {units[unitIdx]}";
+        return $"{size:F3} {units[unitIdx]}";
     }
-
 }

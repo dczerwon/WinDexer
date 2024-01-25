@@ -48,8 +48,27 @@ public class DbManager
     public void Delete(IEnumerable<IEntity> records)
         => _context.RemoveRange(records);
 
-    public async Task SaveChangesAsync()
-        => await _context.SaveChangesAsync();
+    public async Task<bool> SaveChangesAsync(Func<Exception, Task>? errorHandler = null)
+    {
+        try
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            if (errorHandler != null)
+                await errorHandler.Invoke(ex);
+            else
+            {
+                TTrace.Error.SendObject("Exception", ex);
+                TTrace.Error.SendStack("Call Stack");
+                throw;
+            }               
+
+            return false;
+        }
+    }
 
     public DbSet<RootFolder> RootFolders
         => _context.RootFolderSet;
