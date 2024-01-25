@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Windexer.Core.Managers;
-using Windexer.Model.Entities;
+using WinDexer.Core.Managers;
+using WinDexer.Model.Entities;
 using Radzen;
 using Microsoft.EntityFrameworkCore;
 
-namespace Windexer.Components.Pages;
+namespace WinDexer.Components.Pages;
 
 public partial class IndexEntriesList : ComponentBase
 {

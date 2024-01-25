@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Windexer.Model.Entities;
+using WinDexer.Model.Entities;
 
-public class WindexerContext : DbContext
+public class WinDexerContext : DbContext
 {
-    public static string DbPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Windexer.db");
+    public static string DbPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "WinDexer.db");
 
     public DbSet<RootFolder> RootFolderSet { get; set; }
     public DbSet<IndexEntry> IndexEntrySet { get; set; }
 
     private Dictionary<Type, object> _dbSets = new Dictionary<Type, object>();
 
-    public WindexerContext() : base()
+    public WinDexerContext() : base()
     {
         _dbSets.Add(typeof(RootFolder), RootFolderSet);
         _dbSets.Add(typeof(IndexEntry), IndexEntrySet);

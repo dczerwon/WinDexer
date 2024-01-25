@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Radzen;
 using TraceTool;
-using Windexer.Core;
-using Windexer.Services;
+using WinDexer.Core;
+using WinDexer.Services;
 
-namespace Windexer
+namespace WinDexer
 {
     public static class MauiProgram
     {
@@ -24,7 +24,7 @@ namespace Windexer
                 });
 
             builder.Services
-                .AddWindexerManagers()
+                .AddWinDexerManagers()
                 .AddSingleton<IFolderPickerService, FolderPickerService>()
                 .AddRadzenComponents()
                 .AddMauiBlazorWebView();

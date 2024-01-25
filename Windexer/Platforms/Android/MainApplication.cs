@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Windexer
+namespace WinDexer
 {
     [Application]
     public class MainApplication : MauiApplication

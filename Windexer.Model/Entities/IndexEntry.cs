@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Windexer.Model.Entities;
+namespace WinDexer.Model.Entities;
 
 [Index(nameof(Name))]
 [Index(nameof(RelativePath))]

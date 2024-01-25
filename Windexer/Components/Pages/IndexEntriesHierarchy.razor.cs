@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Radzen;
-using Windexer.Core.Managers;
-using Windexer.Model.Entities;
+using WinDexer.Core.Managers;
+using WinDexer.Model.Entities;
 using System.Linq.Dynamic.Core;
 using Radzen.Blazor;
 using Microsoft.EntityFrameworkCore;
-using Windexer.Core.ViewModels;
+using WinDexer.Core.ViewModels;
 
-namespace Windexer.Components.Pages;
+namespace WinDexer.Components.Pages;
 
 public partial class IndexEntriesHierarchy : ComponentBase
 {

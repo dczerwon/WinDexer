@@ -2,7 +2,7 @@
 using Microsoft.JSInterop;
 using Radzen;
 
-namespace Windexer.Components.Shared
+namespace WinDexer.Components.Shared
 {
     public partial class EventConsole: ComponentBase
     {

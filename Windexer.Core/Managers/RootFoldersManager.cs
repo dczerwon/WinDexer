@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TraceTool;
-using Windexer.Core.ViewModels;
-using Windexer.Model.Entities;
+using WinDexer.Core.ViewModels;
+using WinDexer.Model.Entities;
 using System.Linq.Dynamic.Core;
 
-namespace Windexer.Core.Managers
+namespace WinDexer.Core.Managers
 {
     public class RootFoldersManager(DbManager _dbManager)
     {

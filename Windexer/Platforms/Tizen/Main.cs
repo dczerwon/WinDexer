@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace Windexer
+namespace WinDexer
 {
     internal class Program : MauiApplication
     {

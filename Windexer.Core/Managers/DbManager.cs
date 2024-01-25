@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TraceTool;
-using Windexer.Core.ViewModels;
-using Windexer.Model.Entities;
+using WinDexer.Core.ViewModels;
+using WinDexer.Model.Entities;
 using System.Linq.Dynamic.Core;
 
-namespace Windexer.Core.Managers;
+namespace WinDexer.Core.Managers;
 
 public class DbManager
 {
-    private readonly WindexerContext _context;
+    private readonly WinDexerContext _context;
 
-    public DbManager(WindexerContext context)
+    public DbManager(WinDexerContext context)
     {
         _context = context;
         _context.Database.EnsureCreated(); // This will create the database if it doesn't exist        
@@ -61,7 +61,7 @@ public class DbManager
     public async Task ResetDbAsync()
     {
         await _context.Database.CloseConnectionAsync();
-        File.Delete(WindexerContext.DbPath);
+        File.Delete(WinDexerContext.DbPath);
         await _context.Database.EnsureCreatedAsync();
     }
 

@@ -1,6 +1,6 @@
-﻿using Windexer.Core.ViewModels;
+﻿using WinDexer.Core.ViewModels;
 using Radzen; 
-namespace Windexer;
+namespace WinDexer;
 
 public static class LoadDataArgsExtension
 {

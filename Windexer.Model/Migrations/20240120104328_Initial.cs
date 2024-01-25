@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Windexer.Model.Migrations
+namespace WinDexer.Model.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using TraceTool;
-using Windexer.Model.Entities;
+using WinDexer.Model.Entities;
 
-namespace Windexer.Core.Managers;
+namespace WinDexer.Core.Managers;
 
 public enum MessageLevel
 {

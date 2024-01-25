@@ -1,7 +1,7 @@
 ﻿using Microsoft.Maui.LifecycleEvents;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-using Windexer.Core.Managers;
+using WinDexer.Core.Managers;
 
 public static class WindowsLifecycleExtensions
 {
@@ -10,10 +10,10 @@ public static class WindowsLifecycleExtensions
         builder.ConfigureLifecycleEvents(events =>
         {
             events.AddWindows(windows =>
-            {
+            {                
                 windows.OnWindowCreated(window =>
-                {
-                    window.Title = "WinDexer";
+                {                    
+                    window.Title = "WinDexer";                    
                     window.AppWindow.Closing += OnWindowClosing;
                 });
             });

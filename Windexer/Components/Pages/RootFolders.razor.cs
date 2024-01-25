@@ -2,11 +2,11 @@
 using Radzen;
 using Radzen.Blazor;
 using TraceTool;
-using Windexer.Core.Managers;
-using Windexer.Model.Entities;
-using Windexer.Services;
+using WinDexer.Core.Managers;
+using WinDexer.Model.Entities;
+using WinDexer.Services;
 
-namespace Windexer.Components.Pages;
+namespace WinDexer.Components.Pages;
 
 public partial class RootFolders : ComponentBase
 {
