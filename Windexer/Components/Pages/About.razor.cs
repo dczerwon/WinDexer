@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Windexer.Components.Pages;
+namespace WinDexer.Components.Pages;
 
 public partial class About : ComponentBase
 {

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using TraceTool;
-using Windexer.Model.Entities;
+using WinDexer.Model.Entities;
 
-namespace Windexer.Core.Managers;
+namespace WinDexer.Core.Managers;
 
 public enum MessageLevel
 {
@@ -19,6 +19,30 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
     public static DateTime? IndexationStart => _indexationStart;
     private static DateTime? _indexationStart;
     public static bool IsIndexing { get; private set; }
+
+    public long FilesFound 
+    {  
+        get => _filesFound; 
+        private set
+        {
+            _filesFound = value;
+            OnCountChange?.Invoke();
+        }
+    }
+    private long _filesFound;
+    public long FoldersFound
+    {
+        get => _foldersFound;
+        private set
+        {
+            _foldersFound = value;
+            OnCountChange?.Invoke();
+        }
+    }
+    private long _foldersFound;
+
+
+    public Action? OnCountChange { get; set; }
     public Action<string,string?, MessageLevel>? OnIndexationMessage { get; set; }
     public List<(string msgA, string? msgB, MessageLevel level)> ImportantMessages { get; } = new ();
 
@@ -91,7 +115,13 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
             rootFolder.StillFound = indexEntry.StillFound;
             rootFolder.IndexationDate = IndexationStart;
             await SendIndexationMessage("Save indexed data");
-            await _dbManager.SaveChangesAsync();
+            await _dbManager.SaveChangesAsync(async ex =>
+            {
+                await SendIndexationMessage("An error occured while saving!", ex.Message, MessageLevel.Error);
+                if (ex.InnerException != null)
+                    await SendIndexationMessage("Additional information", ex.InnerException.Message, MessageLevel.Error);
+
+            });            
         }
 
         timer.Stop();
@@ -101,6 +131,8 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
 
     private async Task<IndexEntry> IndexFolder(RootFolder root, DirectoryInfo? folder, IndexEntry? parent)
     {
+        FoldersFound++;
+
         folder ??= new DirectoryInfo(root.Path);
         await SendIndexationMessage("Start folder indexation", folder.FullName);
 
@@ -128,6 +160,8 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
         var count = 1;
         foreach (var file in files)
         {
+            FilesFound++;
+
             var relativeFilePath = Path.GetRelativePath(root.Path, file.FullName);
             if (_existingEntriesByPath.TryGetValue(relativeFilePath, out var existingEntry))
                 _indexEntriesManager.Update(existingEntry, file.Exists, file.Length);

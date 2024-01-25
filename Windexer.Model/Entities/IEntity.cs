@@ -1,4 +1,4 @@
-﻿namespace Windexer.Model.Entities;
+﻿namespace WinDexer.Model.Entities;
 
 public interface IEntity
 {

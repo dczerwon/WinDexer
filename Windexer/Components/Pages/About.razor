@@ -1,10 +1,14 @@
 ﻿@page "/About"
 
-<RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Start" Gap="2em">
-    <div>WinDexer</div>
-    <div>By Ryo Saeba</div>
-    <div>Version : @GetVersion()</div>
-    <div>GitHub Project : <RadzenLink Path="https://github.com/dczerwon/WinDexer" Text="https://github.com/dczerwon/WinDexer"/></div>
+
+<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Start" Gap="5em" Wrap="FlexWrap.NoWrap">
+    <RadzenImage Path="windexer.png" Style="width:256px;" />
+    <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Start" Gap="2em">
+        <h1>WinDexer</h1>
+        <div>Version @GetVersion()</div>
+        <div>By Ryo Saeba</div>
+        <RadzenLink Path="https://github.com/dczerwon/WinDexer" Text="https://github.com/dczerwon/WinDexer"/>        
+    </RadzenStack>
 </RadzenStack>
 
 @code

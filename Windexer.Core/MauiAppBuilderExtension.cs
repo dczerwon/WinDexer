@@ -1,15 +1,15 @@
 ﻿using TraceTool;
-using Windexer.Core.Managers;
-using Windexer.Model;
+using WinDexer.Core.Managers;
+using WinDexer.Model;
 
-namespace Windexer.Core
+namespace WinDexer.Core
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddWindexerManagers(this IServiceCollection sc)
+        public static IServiceCollection AddWinDexerManagers(this IServiceCollection sc)
         {
             return sc             
-                .AddDbContext<WindexerContext>()                
+                .AddDbContext<WinDexerContext>()                
                 .AddSingleton<DbManager>()
                 .AddSingleton<RootFoldersManager>()
                 .AddSingleton<IndexEntriesManager>()

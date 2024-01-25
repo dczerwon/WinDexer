@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Windexer
+namespace WinDexer
 {
     public class Program
     {

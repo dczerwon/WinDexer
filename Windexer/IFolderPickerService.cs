@@ -1,4 +1,4 @@
-﻿namespace Windexer.Services;
+﻿namespace WinDexer.Services;
 
 public interface IFolderPickerService
 {

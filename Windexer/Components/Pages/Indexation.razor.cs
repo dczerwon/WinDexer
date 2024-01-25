@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TraceTool;
-using Windexer.Core.Managers;
-using Windexer.Services;
-using Windexer.Components.Shared;
+using WinDexer.Core.Managers;
+using WinDexer.Services;
+using WinDexer.Components.Shared;
 using Radzen;
 
-namespace Windexer.Components.Pages;
+namespace WinDexer.Components.Pages;
 
 public partial class Indexation: ComponentBase, IDisposable
 {

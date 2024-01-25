@@ -6,13 +6,15 @@
     LoadData="@LoadData"
     IsLoading=@_isLoading 
     Count="@_itemsCount"
+    SelectionMode="DataGridSelectionMode.Single" 
+    @bind-Value=@_selectedItems
     AllowRowSelectOnRowClick="true"
     AllowFiltering="true"    
     FilterPopupRenderMode="PopupRenderMode.OnDemand" 
     FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
     AllowColumnResize="true" 
     AllowAlternatingRows="true" 
-    AllowSorting="true" 
+    AllowSorting="false"
     PageSize="50" 
     AllowPaging="true"
     ShowPagingSummary="true"    
@@ -31,10 +33,10 @@
                 }
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Name" Filterable="true" Title="Name" Width="100px" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Name" Filterable="true" Title="Name" Width="300px" />
         <RadzenDataGridColumn TItem="IndexEntry" Property="Extension" Filterable="true" Title="Extension" Width="70px" />
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Path" Filterable="false" Title="Path" Width="500px" />
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Root.Path" Filterable="true" Title="Root Folder" Width="500px" Visible="true"/>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Path" Filterable="false" Title="Path" Width="500px" Visible="false" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Root.Path" Filterable="true" Title="Root Folder" Width="200px" Visible="true"/>
         <RadzenDataGridColumn TItem="IndexEntry" Property="RelativePath" Filterable="true" Title="Relative Path" Width="500px" Visible="true" />
         <RadzenDataGridColumn TItem="IndexEntry" Property="LastSeen" Filterable="true" Title="Last seen" Width="200px" Visible="true">
             <Template Context="indexEntry">
@@ -65,8 +67,22 @@
                 @AsReadableSize(indexEntry.Size)
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="IndexEntry" Property="FilesCount" Filterable="true" Title="Files Count" Width="250px" Visible="true" />
-        <RadzenDataGridColumn TItem="IndexEntry" Property="FoldersCount" Filterable="true" Title="Folders Count" Width="250px" Visible="true" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="FilesCount" Filterable="true" Title="Files Count" Width="250px" Visible="true">
+            <Template Context="indexEntry">
+                @if (indexEntry.IsFolder)
+                {
+                    @indexEntry.FilesCount.ToString("N0");
+                }
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="FoldersCount" Filterable="true" Title="Folders Count" Width="250px" Visible="true">
+            <Template Context="indexEntry">
+                @if (indexEntry.IsFolder)
+                {
+                    @indexEntry.FoldersCount.ToString("N0");
+                }
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
 

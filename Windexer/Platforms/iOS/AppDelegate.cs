@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Windexer
+namespace WinDexer
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

@@ -6,17 +6,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Windexer.Model.Migrations
+namespace WinDexer.Model.Migrations
 {
-    [DbContext(typeof(WindexerContext))]
-    partial class WindexerContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(WinDexerContext))]
+    partial class WinDexerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
 
-            modelBuilder.Entity("Windexer.Model.Entities.IndexEntry", b =>
+            modelBuilder.Entity("WinDexer.Model.Entities.IndexEntry", b =>
                 {
                     b.Property<Guid>("IndexEntryId")
                         .ValueGeneratedOnAdd()
@@ -77,7 +77,7 @@ namespace Windexer.Model.Migrations
                     b.ToTable("IndexEntry", (string)null);
                 });
 
-            modelBuilder.Entity("Windexer.Model.Entities.RootFolder", b =>
+            modelBuilder.Entity("WinDexer.Model.Entities.RootFolder", b =>
                 {
                     b.Property<Guid>("RootFolderId")
                         .ValueGeneratedOnAdd()
@@ -105,13 +105,13 @@ namespace Windexer.Model.Migrations
                     b.ToTable("RootFolder", (string)null);
                 });
 
-            modelBuilder.Entity("Windexer.Model.Entities.IndexEntry", b =>
+            modelBuilder.Entity("WinDexer.Model.Entities.IndexEntry", b =>
                 {
-                    b.HasOne("Windexer.Model.Entities.IndexEntry", "Parent")
+                    b.HasOne("WinDexer.Model.Entities.IndexEntry", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentIndexEntryId");
 
-                    b.HasOne("Windexer.Model.Entities.RootFolder", "Root")
+                    b.HasOne("WinDexer.Model.Entities.RootFolder", "Root")
                         .WithMany("Children")
                         .HasForeignKey("RootFolderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -122,7 +122,7 @@ namespace Windexer.Model.Migrations
                     b.Navigation("Root");
                 });
 
-            modelBuilder.Entity("Windexer.Model.Entities.RootFolder", b =>
+            modelBuilder.Entity("WinDexer.Model.Entities.RootFolder", b =>
                 {
                     b.Navigation("Children");
                 });

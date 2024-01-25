@@ -1,4 +1,4 @@
-﻿namespace Windexer
+﻿namespace WinDexer
 {
     public partial class App : Application
     {

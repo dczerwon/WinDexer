@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Radzen;
-using Windexer.Core.Managers;
-using Windexer.Model.Entities;
+using WinDexer.Core.Managers;
+using WinDexer.Model.Entities;
 using System.Linq.Dynamic.Core;
 using Radzen.Blazor;
 using Microsoft.EntityFrameworkCore;
-using Windexer.Core.ViewModels;
+using WinDexer.Core.ViewModels;
 
-namespace Windexer.Components.Pages;
+namespace WinDexer.Components.Pages;
 
 public partial class IndexEntriesHierarchy : ComponentBase
 {
@@ -15,6 +15,7 @@ public partial class IndexEntriesHierarchy : ComponentBase
 
     private RadzenDataGrid<IndexEntry> _datagrid;
     private IEnumerable<IndexEntry> _pageItems;
+    private IList<IndexEntry> _selectedItems = new List<IndexEntry>();
     private Dictionary<Guid, IQueryable<IndexEntry>> _children;
     private bool _isLoading = false;
     private int _itemsCount = 0;
@@ -70,5 +71,19 @@ public partial class IndexEntriesHierarchy : ComponentBase
         _itemsCount = result.TotalCount;
 
         _isLoading = false;
+    }
+
+    public string AsReadableSize(long nbBytes)
+    {
+        double size = nbBytes;
+        var units = new[] { "B", "kB", "MB", "GB", "TB" };
+        var unitIdx = 0;
+        while (size > 1024 && unitIdx < units.Length)
+        {
+            size /= 1024;
+            unitIdx++;
+        }
+
+        return $"{size:F3} {units[unitIdx]}";
     }
 }

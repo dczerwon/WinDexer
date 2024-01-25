@@ -1,7 +1,7 @@
-﻿using Windexer.Model.Entities;
+﻿using WinDexer.Model.Entities;
 using System.Linq.Dynamic.Core;
 
-namespace Windexer.Core.ViewModels;
+namespace WinDexer.Core.ViewModels;
 
 public class FilteredListRequest
 {

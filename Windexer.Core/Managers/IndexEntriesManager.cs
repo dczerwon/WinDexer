@@ -1,9 +1,9 @@
 ﻿using TraceTool;
-using Windexer.Model.Entities;
+using WinDexer.Model.Entities;
 using System.Linq.Dynamic.Core;
-using Windexer.Core.ViewModels;
+using WinDexer.Core.ViewModels;
 
-namespace Windexer.Core.Managers
+namespace WinDexer.Core.Managers
 {
     public class IndexEntriesManager(DbManager _dbManager, RootFoldersManager _rootsManager)
     {
