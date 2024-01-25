@@ -39,10 +39,10 @@
         <AssemblyName>WinDexer</AssemblyName>
         <Title>$(AssemblyName)</Title>
         <PackageProjectUrl></PackageProjectUrl>
-        <RepositoryUrl>https://github.com/dczerwon/WinDexer</RepositoryUrl>
+        <RepositoryUrl>https://github.com/ryosaebasan/WinDexer</RepositoryUrl>
         <RepositoryType>github</RepositoryType>
         <PackageIcon>splash.png</PackageIcon>
-        <Description>INdex the full path of files in pecified folders or shares to quickly find them even over the network.</Description>
+        <Description>Index the full path of files in pecified folders or shares to quickly find them even over the network.</Description>
       <!--SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion-->
     </PropertyGroup>
 
