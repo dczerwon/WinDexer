@@ -1,0 +1,1 @@
+dotnet publish --framework net8.0-windows10.0.19041.0 --self-contained --configuration Debug -p:RuntimeIdentifierOverride=win10-x64 --version-suffix 16

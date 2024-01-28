@@ -3,7 +3,7 @@
 <RadzenLayout>
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start">
-            <RadzenMenu>    
+            <RadzenMenu>
                 <RadzenMenuItem Text="Index Entries" Icon="source">
                     <RadzenMenuItem Text="Hierarchic view" Path="/" Icon="account_tree" />
                     <RadzenMenuItem Text="List view" Path="/IndexEntriesList" Icon="view_list" />
@@ -12,7 +12,10 @@
                     <RadzenMenuItem Text="Folders to index" Path="/RootFolders" Icon="folder" />
                     <RadzenMenuItem Text="Indexation" Path="/Indexation" Icon="sync" />
                 </RadzenMenuItem>
-                <RadzenMenuItem Text="About" Path="/About" Icon="help_outline" />
+                <RadzenMenuItem Text="Help" Icon="help">
+                    <RadzenMenuItem Text="Tutorial" Path="/Tutorial" Icon="school" />
+                    <RadzenMenuItem Text="About" Path="/About" Icon="info" />
+                </RadzenMenuItem>
             </RadzenMenu>
         </RadzenStack>
     </RadzenHeader>
