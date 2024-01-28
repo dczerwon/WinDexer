@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-      <!--TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks-->
+      <TargetFrameworks>net8.0-maccatalyst</TargetFrameworks>
         <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
         <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
         <!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
@@ -25,7 +25,7 @@
         <ApplicationTitle>WinDexer</ApplicationTitle>      
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.windexer</ApplicationId>
+        <ApplicationId>com.ryosaebasan.windexer</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -41,14 +41,28 @@
         <PackageProjectUrl></PackageProjectUrl>
         <RepositoryUrl>https://github.com/ryosaebasan/WinDexer</RepositoryUrl>
         <RepositoryType>github</RepositoryType>
-        <PackageIcon>splash.png</PackageIcon>
+        <PackageIcon>packageicon.jpg</PackageIcon>
         <Description>Index the full path of files in pecified folders or shares to quickly find them even over the network.</Description>
+        <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+        <PackageCertificateKeyFile>WinDexer_TemporaryKey.pfx</PackageCertificateKeyFile>
+        <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+        <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+        <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+        <GenerateTestArtifacts>True</GenerateTestArtifacts>
+        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+        <DefaultLanguage>en-us</DefaultLanguage>
+        <AppInstallerUri>https://www.czerwon.be/files/WinDexer.msix</AppInstallerUri>
       <!--SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion-->
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'" />
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'" />
+
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.png" />
+        <MauiIcon Include="Resources\AppIcon\appicon.png" Pack="true" PackagePath="" />
       
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.png" />
@@ -99,7 +113,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Resources\Splash\splash.png">
+      <None Include="Resources\AppIcon\packageicon.jpg">
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>

@@ -2,7 +2,9 @@
 using Radzen;
 using TraceTool;
 using WinDexer.Core;
+#if WINDOWS
 using WinDexer.Services;
+#endif
 
 namespace WinDexer
 {
@@ -17,7 +19,9 @@ namespace WinDexer
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+#if WINDOWS
                 .ConfigureWindowsLifecycle()
+#endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -25,7 +29,9 @@ namespace WinDexer
 
             builder.Services
                 .AddWinDexerManagers()
+#if WINDOWS
                 .AddSingleton<IFolderPickerService, FolderPickerService>()
+#endif
                 .AddRadzenComponents()
                 .AddMauiBlazorWebView();
 

@@ -4,7 +4,7 @@ using WinDexer.Model.Entities;
 
 public class WinDexerContext : DbContext
 {
-    public static string DbPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "WinDexer.db");
+    public static string DbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WinDexer.db");
 
     public DbSet<RootFolder> RootFolderSet { get; set; }
     public DbSet<IndexEntry> IndexEntrySet { get; set; }
