@@ -16,9 +16,11 @@ public class RootFolder : IEntity
     public Guid RootFolderId { get; set; }
 
     [Required]
+    [MaxLength(128)]
     public string Name { get; set; } = null!;
 
     [Required]
+    [MaxLength(2048)]
     public string Path { get; set; } = null!;
 
     public DateTime? IndexationDate { get; set; }
@@ -28,7 +30,7 @@ public class RootFolder : IEntity
     [Required]
     public bool Enabled { get; set; }
 
-    public virtual List<IndexEntry> Children { get; set; }
+    public virtual List<IndexEntry> Children { get; set; } = new();
 
     [NotMapped]
     public Guid Id => RootFolderId;

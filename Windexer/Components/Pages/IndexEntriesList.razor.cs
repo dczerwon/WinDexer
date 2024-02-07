@@ -8,14 +8,14 @@ namespace WinDexer.Components.Pages;
 
 public partial class IndexEntriesList : ComponentBase
 {
-    [Inject] public IndexEntriesManager IdxEntriesManager { get; set; }
+    [Inject] public IndexEntriesManager IdxEntriesManager { get; set; } = null!;
 
-    private List<IndexEntry> _pageItems;
+    private List<IndexEntry> _pageItems = new();
     private IList<IndexEntry> _selectedItems = new List<IndexEntry>();
-    private bool _isLoading = false;
-    private int _itemsCount = 0;
+    private bool _isLoading;
+    private int _itemsCount;
 
-    public async Task LoadData(LoadDataArgs args)
+    private async Task LoadData(LoadDataArgs args)
     {
         _isLoading = true;
         
@@ -26,7 +26,7 @@ public partial class IndexEntriesList : ComponentBase
         _isLoading = false;
     }
 
-    public string AsReadableSize(long nbBytes)
+    private string AsReadableSize(long nbBytes)
     {        
         double size = nbBytes;
         var units = new [] { "B", "kB", "MB", "GB", "TB" };

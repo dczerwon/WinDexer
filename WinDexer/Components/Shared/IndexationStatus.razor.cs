@@ -8,7 +8,7 @@ namespace WinDexer.Components.Shared;
 
 public partial class IndexationStatus : ComponentBase, IDisposable
 {
-    [Inject] private IndexationManager IdxManager { get; set; }
+    [Inject] private IndexationManager IdxManager { get; set; } = null!;
     private DateTime _lastRefresh = DateTime.Now;
 
     protected override Task OnInitializedAsync()

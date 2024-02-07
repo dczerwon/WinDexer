@@ -1,11 +1,11 @@
 ﻿using TraceTool;
 using WinDexer.Model.Entities;
-using System.Linq.Dynamic.Core;
 using WinDexer.Core.ViewModels;
 
 namespace WinDexer.Core.Managers
 {
-    public class IndexEntriesManager(DbManager _dbManager, RootFoldersManager _rootsManager)
+    // ReSharper disable once InconsistentNaming
+    public class IndexEntriesManager(DbManager _dbManager)
     {
         public async Task<IndexEntry> AddAsync(FileSystemInfo fsInfo, long fileSize, RootFolder root, IndexEntry? parent = null)
         {

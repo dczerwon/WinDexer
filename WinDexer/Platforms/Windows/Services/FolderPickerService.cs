@@ -1,6 +1,7 @@
 ﻿using Windows.Storage.Pickers;
-
-namespace WinDexer.Services;
+using WinDexer.Services;
+    
+namespace WinDexer.Platforms.Windows.Services;
 
 public class FolderPickerService: IFolderPickerService
 {

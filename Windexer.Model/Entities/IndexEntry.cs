@@ -19,10 +19,13 @@ public class IndexEntry : IEntity
     public Guid IndexEntryId { get; set; }
 
     [Required]
+    [MaxLength(2048)]
     public string RelativePath { get; set; } = null!;
 
+    [MaxLength(128)]
     public string? Name { get; set; }
 
+    [MaxLength(16)]
     public string? Extension { get; set; }
 
     public DateTime? IndexationDate { get; set; }
@@ -55,7 +58,7 @@ public class IndexEntry : IEntity
 
     [Required]
     [ForeignKey("RootFolderId")]    
-    public RootFolder Root { get; set; }
+    public RootFolder Root { get; set; } = null!;
 
     [ForeignKey("ParentIndexEntryId")]
     public IndexEntry? Parent { get; set; }
@@ -66,6 +69,6 @@ public class IndexEntry : IEntity
     [NotMapped]
     public Guid Id => IndexEntryId;
 
-    public virtual List<IndexEntry> Children { get; set; }
+    public virtual List<IndexEntry> Children { get; set; } = new();
 
 }

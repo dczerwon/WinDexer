@@ -1,6 +1,5 @@
-﻿using TraceTool;
-using WinDexer.Core.Managers;
-using WinDexer.Model;
+﻿using WinDexer.Core.Managers;
+using WinDexer.Model.Context;
 
 namespace WinDexer.Core
 {

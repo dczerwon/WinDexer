@@ -65,22 +65,16 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
     public async Task AddFolderToIndex(string folderPath)
     {
         TTrace.Debug.Send("Add a folder to index", folderPath);
-        _rootFoldersManager.AddAsync(folderPath);
+        await _rootFoldersManager.AddAsync(folderPath);
         await _dbManager.SaveChangesAsync();
         TTrace.Debug.Send("Folder to index added", folderPath);
     }
 
     public async Task DeleteFoldersFromIndex(List<RootFolder> folders)
     {
-        if (folders == null)
-            return;
-
         foreach (var toDelete in folders)
         {
             var related = await _indexEntriesManager.GetForRootAsync(toDelete.RootFolderId);
-            if (related == null)
-                continue;
-
             _dbManager.Delete(related);
         }
         _dbManager.Delete(folders);

@@ -1,29 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 using WinDexer.Model.Entities;
+
+namespace WinDexer.Model.Context;
 
 public class WinDexerContext : DbContext
 {
     public static string DbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WinDexer.db");
 
-    public DbSet<RootFolder> RootFolderSet { get; set; }
-    public DbSet<IndexEntry> IndexEntrySet { get; set; }
+    public DbSet<RootFolder> RootFolderSet { get; set; } = null!;
+    public DbSet<IndexEntry> IndexEntrySet { get; set; } = null!;
 
-    private Dictionary<Type, object> _dbSets = new Dictionary<Type, object>();
+    //private Dictionary<Type, object> _dbSets = new ();
 
-    public WinDexerContext() : base()
-    {
-        _dbSets.Add(typeof(RootFolder), RootFolderSet);
-        _dbSets.Add(typeof(IndexEntry), IndexEntrySet);
-    }
+    //public WinDexerContext() : base()
+    //{
+    //    _dbSets.Add(typeof(RootFolder), RootFolderSet);
+    //    _dbSets.Add(typeof(IndexEntry), IndexEntrySet);
+    //}
 
-    public DbSet<TEntity> GetDbSet<TEntity>() where TEntity: class, IEntity, new()
-    {
-        if (_dbSets.TryGetValue(typeof(TEntity), out var dbSet))
-            return dbSet as DbSet<TEntity>;
+    //public DbSet<TEntity>? GetDbSet<TEntity>() where TEntity: class, IEntity, new()
+    //{
+    //    if (_dbSets.TryGetValue(typeof(TEntity), out var dbSet))
+    //        return dbSet as DbSet<TEntity>;
 
-        throw new ArgumentException($"DbSet for type '{typeof(TEntity).Name}' not found.");
-    }
+    //    throw new ArgumentException($"DbSet for type '{typeof(TEntity).Name}' not found.");
+    //}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

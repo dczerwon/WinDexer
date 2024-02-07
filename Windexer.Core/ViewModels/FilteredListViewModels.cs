@@ -38,6 +38,6 @@ public class FilteredListRequest
 
 public class FilteredListResponse<TEntity> where TEntity : IEntity
 {
-    public List<TEntity> Data { get; set; }
+    public List<TEntity> Data { get; set; } = new();
     public int TotalCount { get; set; }
 }

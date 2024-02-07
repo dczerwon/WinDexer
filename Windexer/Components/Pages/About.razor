@@ -15,7 +15,8 @@
 {
     private string GetVersion()
     {
-        var suffix = "";
+        // ReSharper disable once RedundantAssignment
+        var suffix = string.Empty;
 #if DEBUG
         suffix = " (Beta)";
 #endif

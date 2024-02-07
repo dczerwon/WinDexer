@@ -2,8 +2,13 @@
 using Radzen;
 using TraceTool;
 using WinDexer.Core;
-#if WINDOWS
 using WinDexer.Services;
+
+#if WINDOWS
+using WinDexer.Platforms.Windows.Services;
+using WinDexer.Platforms.Windows.Extensions;
+#elif MACCATALYST
+using WinDexer.Platforms.MacCatalyst.Services;
 #endif
 
 namespace WinDexer
@@ -29,9 +34,7 @@ namespace WinDexer
 
             builder.Services
                 .AddWinDexerManagers()
-#if WINDOWS
                 .AddSingleton<IFolderPickerService, FolderPickerService>()
-#endif
                 .AddRadzenComponents()
                 .AddMauiBlazorWebView();
 

@@ -9,11 +9,11 @@ namespace WinDexer.Components.Pages;
 
 public partial class Indexation: ComponentBase, IDisposable
 {
-    [Inject] public IndexationManager IdxManager { get; set; }
-    [Inject] public DbManager DatabaseManager { get; set; }
-    [Inject] public IFolderPickerService FolderPicker { get; set; }
+    [Inject] public IndexationManager IdxManager { get; set; } = null!;
+    [Inject] public DbManager DatabaseManager { get; set; } = null!;
+    [Inject] public IFolderPickerService FolderPicker { get; set; } = null!;
 
-    private EventConsole _console;
+    private EventConsole _console = null!; 
 
     protected override Task OnInitializedAsync()
     {

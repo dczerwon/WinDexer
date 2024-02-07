@@ -10,32 +10,24 @@ namespace WinDexer.Components.Pages;
 
 public partial class RootFolders : ComponentBase
 {
-    [Inject] public IndexationManager IdxManager { get; set; }
-    [Inject] public DbManager DatabaseManager { get; set; }
-    [Inject] public IFolderPickerService FolderPicker { get; set; }
-    [Inject] public RootFoldersManager RootsManager { get; set; }
+    [Inject] public IndexationManager IdxManager { get; set; } = null!;
+    [Inject] public DbManager DatabaseManager { get; set; } = null!;
+    [Inject] public IFolderPickerService FolderPicker { get; set; } = null!;
+    [Inject] public RootFoldersManager RootsManager { get; set; } = null!;
 
-    private RadzenDataGrid<RootFolder> _datagrid;
+    private RadzenDataGrid<RootFolder> _datagrid = null!;
 
-    private IEnumerable<RootFolder> _pageItems;
+    private IEnumerable<RootFolder> _pageItems = Array.Empty<RootFolder>();
     private IList<RootFolder> _selectedRootFolders = new List<RootFolder>();
-    private bool _isLoading = false;
-    private int _itemsCount = 0;
+    private bool _isLoading;
+    private int _itemsCount;
 
-    public bool AllSelected {
-        get 
-        {
-            if (_pageItems == null || !_pageItems.Any())
-                return false;
+    private bool AllSelected =>  _pageItems.Any() && _pageItems.All(IsSelected);
 
-            return _pageItems.All(IsSelected);
-        } 
-    }
-
-    public bool IsSelected(RootFolder item)
+    private bool IsSelected(RootFolder item)
         => _selectedRootFolders.Contains(item);
 
-    public void ToggleRow(RootFolder item)
+    private void ToggleRow(RootFolder item)
     {
         if (IsSelected(item))
             _selectedRootFolders.Remove(item);
@@ -43,7 +35,7 @@ public partial class RootFolders : ComponentBase
             _selectedRootFolders.Add(item);
     }
 
-    public void ToggleSelectAll(bool selected)
+    private void ToggleSelectAll(bool selected)
     {                
         _selectedRootFolders = selected
             ? _pageItems.ToList()
@@ -54,12 +46,18 @@ public partial class RootFolders : ComponentBase
     {
         TTrace.Debug.Send("Enter", "RootFolders.AddFolder");
         var folderPath = await FolderPicker.PickFolderAsync();
+        if (string.IsNullOrEmpty(folderPath))
+        {
+            TTrace.Debug.Send("Leave", "RootFolders.AddFolder (No folder selected)");
+            return;
+        }
+        
         await IdxManager.AddFolderToIndex(folderPath);        
         await _datagrid.RefreshDataAsync();
         TTrace.Debug.Send("Leave", "RootFolders.AddFolder");
     }
 
-    public async Task LoadData(LoadDataArgs args)
+    private async Task LoadData(LoadDataArgs args)
     {
         _isLoading = true;
 

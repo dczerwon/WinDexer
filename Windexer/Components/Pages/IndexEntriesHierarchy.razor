@@ -1,7 +1,6 @@
 ﻿@page "/"
 
 <RadzenDataGrid 
-    @ref="_datagrid"
     TItem="IndexEntry"
     Data="@_pageItems"
     LoadData="@LoadData"
@@ -73,7 +72,7 @@
             <Template Context="indexEntry">
                 @if (indexEntry.IsFolder)
                 {
-                    @indexEntry.FilesCount.ToString("N0");
+                    @indexEntry.FilesCount.ToString("N0")
                 }
             </Template>
         </RadzenDataGridColumn>
@@ -81,7 +80,7 @@
             <Template Context="indexEntry">
                 @if (indexEntry.IsFolder)
                 {
-                    @indexEntry.FoldersCount.ToString("N0");
+                    @indexEntry.FoldersCount.ToString("N0")
                 }
             </Template>
         </RadzenDataGridColumn>

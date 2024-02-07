@@ -2,8 +2,6 @@
 using Radzen;
 using WinDexer.Core.Managers;
 using WinDexer.Model.Entities;
-using System.Linq.Dynamic.Core;
-using Radzen.Blazor;
 using Microsoft.EntityFrameworkCore;
 using WinDexer.Core.ViewModels;
 
@@ -11,15 +9,14 @@ namespace WinDexer.Components.Pages;
 
 public partial class IndexEntriesHierarchy : ComponentBase
 {
-    [Inject] public IndexEntriesManager IdxEntriesManager { get; set; }
+    [Inject] public IndexEntriesManager IdxEntriesManager { get; set; } = null!;
 
-    private RadzenDataGrid<IndexEntry> _datagrid;
-    private IEnumerable<IndexEntry> _pageItems;
+    private IEnumerable<IndexEntry> _pageItems = Array.Empty<IndexEntry>();
     private IList<IndexEntry> _selectedItems = new List<IndexEntry>();
-    private Dictionary<Guid, IQueryable<IndexEntry>> _children;
-    private bool _isLoading = false;
-    private int _itemsCount = 0;
-    private LoadDataArgs _lastLoadDataArgs;
+    private Dictionary<Guid, IQueryable<IndexEntry>> _children = new();
+    private bool _isLoading;
+    private int _itemsCount;
+    private LoadDataArgs? _lastLoadDataArgs;
 
     public void RowRender(RowRenderEventArgs<IndexEntry> args)
     {

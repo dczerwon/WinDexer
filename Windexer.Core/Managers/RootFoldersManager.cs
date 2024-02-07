@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TraceTool;
+﻿using TraceTool;
 using WinDexer.Core.ViewModels;
 using WinDexer.Model.Entities;
-using System.Linq.Dynamic.Core;
 
 namespace WinDexer.Core.Managers
 {
+    // ReSharper disable once InconsistentNaming
     public class RootFoldersManager(DbManager _dbManager)
     {
         public Task<FilteredListResponse<RootFolder>> GetAsync(FilteredListRequest? request = null, Func<IQueryable<RootFolder>, IQueryable<RootFolder>>? adaptQuery = null)
@@ -20,11 +19,11 @@ namespace WinDexer.Core.Managers
 
         public async Task<RootFolder> AddAsync(string path)
         {
-            TTrace.Debug.Send($"Add root folder", path);
+            TTrace.Debug.Send("Add root folder", path);
             var folder = new RootFolder
             {
                 RootFolderId = Guid.NewGuid(),
-                Name = Path.GetFileName(path) ?? path,
+                Name = Path.GetFileName(path),
                 Path = path,
                 Enabled = true,                
             };

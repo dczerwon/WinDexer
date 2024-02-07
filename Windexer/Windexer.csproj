@@ -94,12 +94,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="IFolderPickerService.cs">
-        <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Resources\Images\" />
     </ItemGroup>
 
@@ -117,6 +111,12 @@
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Platforms\MacCatalyst\Services\FolderPickerService.cs">
+        <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+      </Compile>
     </ItemGroup>
 
 </Project>

@@ -4,6 +4,7 @@ using TraceTool;
 using WinDexer.Core.ViewModels;
 using WinDexer.Model.Entities;
 using System.Linq.Dynamic.Core;
+using WinDexer.Model.Context;
 
 namespace WinDexer.Core.Managers;
 

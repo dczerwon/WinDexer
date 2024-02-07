@@ -3,6 +3,8 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using WinDexer.Core.Managers;
 
+namespace WinDexer.Platforms.Windows.Extensions;
+
 public static class WindowsLifecycleExtensions
 {
     public static MauiAppBuilder ConfigureWindowsLifecycle(this MauiAppBuilder builder)
@@ -40,7 +42,7 @@ public static class WindowsLifecycleExtensions
 
         // Access the current window's XamlRoot
         var mauiWindow = Application.Current.Windows.First();
-        var nativeWindow = mauiWindow.Handler.PlatformView as Microsoft.UI.Xaml.Window;
+        var nativeWindow = mauiWindow.Handler?.PlatformView as Microsoft.UI.Xaml.Window;
         if (nativeWindow == null)
             return;
 
