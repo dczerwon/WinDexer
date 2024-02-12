@@ -3,6 +3,7 @@ using WinDexer.Core.Managers;
 using WinDexer.Model.Entities;
 using Radzen;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace WinDexer.Components.Pages;
 
@@ -10,7 +11,7 @@ public partial class IndexEntriesList : ComponentBase
 {
     [Inject] public IndexEntriesManager IdxEntriesManager { get; set; } = null!;
 
-    private List<IndexEntry> _pageItems = new();
+    private List<IndexEntry>? _pageItems;
     private IList<IndexEntry> _selectedItems = new List<IndexEntry>();
     private bool _isLoading;
     private int _itemsCount;
@@ -38,5 +39,21 @@ public partial class IndexEntriesList : ComponentBase
         }
 
         return $"{size:F3} {units[unitIdx]}";
+    }
+
+    public string GetIcon(IndexEntry indexEntry) => indexEntry.IsFolder ? "folder" : "description";
+
+    public void Launch(IndexEntry indexEntry)
+    {
+        var pi = new ProcessStartInfo(indexEntry.Path);
+        pi.UseShellExecute = true;
+        Process.Start(pi);
+    }
+
+    public void ShowInExplorer(string path)
+    {
+        var pi = new ProcessStartInfo("explorer.exe", $"/select,\"{path}\"");
+        pi.UseShellExecute = false;
+        Process.Start(pi);
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WinDexer.Model.Entities;
 
+
 [Index(nameof(Name))]
 [Index(nameof(RelativePath))]
 [Index(nameof(IndexationDate))]
@@ -17,6 +18,13 @@ public class IndexEntry : IEntity
     [Key]
     [Required]
     public Guid IndexEntryId { get; set; }
+
+    [Required]
+    [MaxLength(2048)]
+    public string Path { get; set; } = null!;
+
+    [MaxLength(2048)]
+    public string? ContainerPath { get; set; }
 
     [Required]
     [MaxLength(2048)]
@@ -62,10 +70,7 @@ public class IndexEntry : IEntity
 
     [ForeignKey("ParentIndexEntryId")]
     public IndexEntry? Parent { get; set; }
-
-    [NotMapped]
-    public string Path { get; set; } = null!;
-
+    
     [NotMapped]
     public Guid Id => IndexEntryId;
 

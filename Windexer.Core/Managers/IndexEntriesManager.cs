@@ -9,18 +9,22 @@ namespace WinDexer.Core.Managers
     {
         public async Task<IndexEntry> AddAsync(FileSystemInfo fsInfo, long fileSize, RootFolder root, IndexEntry? parent = null)
         {
+            var fileInfo = fsInfo as FileInfo;
+            var dirinfo = fsInfo as DirectoryInfo;
+
             TTrace.Debug.Send($"Add index entry", fsInfo.FullName);
             var entry = new IndexEntry
             {
                 IndexEntryId = Guid.NewGuid(),
-                Name = fsInfo.Name,
+                Name = Path.GetFileNameWithoutExtension(fsInfo.Name),
+                ContainerPath = fileInfo?.Directory?.FullName ?? dirinfo?.Parent?.FullName,
                 Extension = fsInfo.Extension,
                 StillFound = fsInfo.Exists,
                 LastSeen = fsInfo.Exists ? IndexationManager.IndexationStart : null,
                 Parent = parent,
                 RelativePath = Path.GetRelativePath(root.Path, fsInfo.FullName),
                 Root = root,
-                IsFolder = fsInfo is DirectoryInfo,
+                IsFolder = dirinfo != null,
                 Size = fileSize,
                 FilesCount = 0,
                 FoldersCount = 0,

@@ -84,3 +84,7 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+
+.dcz-link{
+    cursor: pointer;
+}

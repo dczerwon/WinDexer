@@ -4,6 +4,8 @@ using WinDexer.Core.Managers;
 using WinDexer.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using WinDexer.Core.ViewModels;
+using System.Diagnostics;
+using Radzen.Blazor;
 
 namespace WinDexer.Components.Pages;
 
@@ -11,7 +13,7 @@ public partial class IndexEntriesHierarchy : ComponentBase
 {
     [Inject] public IndexEntriesManager IdxEntriesManager { get; set; } = null!;
 
-    private IEnumerable<IndexEntry> _pageItems = Array.Empty<IndexEntry>();
+    private IEnumerable<IndexEntry>? _pageItems;
     private IList<IndexEntry> _selectedItems = new List<IndexEntry>();
     private Dictionary<Guid, IQueryable<IndexEntry>> _children = new();
     private bool _isLoading;
@@ -37,7 +39,7 @@ public partial class IndexEntriesHierarchy : ComponentBase
         var childrenIds = children.Select(e_ => e_.IndexEntryId).ToHashSet();
         var subChildren = await IdxEntriesManager.GetAsync(request, q_ => q_.Where(e_ => e_.Parent != null && childrenIds.Contains(e_.Parent.IndexEntryId)));
         foreach (var group in subChildren.Data.GroupBy(e_ => e_.Parent?.IndexEntryId ?? Guid.Empty))
-            _children.Add(group.Key, group.AsQueryable());
+            _children.TryAdd(group.Key, group.AsQueryable());
     }
 
     public async Task LoadData(LoadDataArgs args)
@@ -82,5 +84,21 @@ public partial class IndexEntriesHierarchy : ComponentBase
         }
 
         return $"{size:F3} {units[unitIdx]}";
+    }
+
+    public string GetIcon(IndexEntry indexEntry) => indexEntry.IsFolder ? "folder" : "description";
+
+    public void Launch(IndexEntry indexEntry)
+    {
+        var pi = new ProcessStartInfo(indexEntry.Path);
+        pi.UseShellExecute = true;
+        Process.Start(pi);
+    }
+
+    public void ShowInExplorer(string path)
+    {
+        var pi = new ProcessStartInfo("explorer.exe", $"/select,\"{path}\"");
+        pi.UseShellExecute = false;
+        Process.Start(pi);
     }
 }

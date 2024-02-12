@@ -5,7 +5,8 @@ namespace WinDexer.Model.Context;
 
 public class WinDexerContext : DbContext
 {
-    public static string DbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WinDexer.db");
+    private static string DbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RyoSaebaSan", "WinDexer");
+    public static string DbPath = Path.Combine(DbFolder, "WinDexer.db");
 
     public DbSet<RootFolder> RootFolderSet { get; set; } = null!;
     public DbSet<IndexEntry> IndexEntrySet { get; set; } = null!;
@@ -28,6 +29,7 @@ public class WinDexerContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        Directory.CreateDirectory(DbFolder);
         optionsBuilder.UseSqlite($"Data Source={DbPath};");        
     }
 

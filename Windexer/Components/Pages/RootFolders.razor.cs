@@ -17,12 +17,12 @@ public partial class RootFolders : ComponentBase
 
     private RadzenDataGrid<RootFolder> _datagrid = null!;
 
-    private IEnumerable<RootFolder> _pageItems = Array.Empty<RootFolder>();
+    private IEnumerable<RootFolder>? _pageItems;
     private IList<RootFolder> _selectedRootFolders = new List<RootFolder>();
     private bool _isLoading;
     private int _itemsCount;
 
-    private bool AllSelected =>  _pageItems.Any() && _pageItems.All(IsSelected);
+    private bool AllSelected => _pageItems != null && _pageItems.Any() && _pageItems.All(IsSelected);
 
     private bool IsSelected(RootFolder item)
         => _selectedRootFolders.Contains(item);
@@ -37,7 +37,7 @@ public partial class RootFolders : ComponentBase
 
     private void ToggleSelectAll(bool selected)
     {                
-        _selectedRootFolders = selected
+        _selectedRootFolders = selected && _pageItems != null
             ? _pageItems.ToList()
             : new List<RootFolder>();
     }

@@ -21,23 +21,42 @@
     ColumnWidth="300px"
 >
     <Columns>
-        <RadzenDataGridColumn TItem="IndexEntry" Property="IsFolder" Filterable="true" Title="Type" Width="100px" Visible="true">
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Name" Filterable="true" Title="Name" Width="400px">
             <Template Context="indexEntry">
-                @if (indexEntry.IsFolder)
-                {
-                    <RadzenIcon Icon="folder" />
-                }
-                else
-                {
-                    <RadzenIcon Icon="description" />
-                }
+                <span class="dcz-link" @onclick=@(_ => Launch(indexEntry))>
+                    <RadzenIcon Icon="@GetIcon(indexEntry)" />@indexEntry.Name
+                </span>
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Name" Filterable="true" Title="Name" Width="300px" />
         <RadzenDataGridColumn TItem="IndexEntry" Property="Extension" Filterable="true" Title="Extension" Width="70px" />
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Path" Filterable="false" Title="Path" Width="500px" Visible="false" />
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Root.Path" Filterable="true" Title="Root Folder" Width="200px" Visible="true"/>
-        <RadzenDataGridColumn TItem="IndexEntry" Property="RelativePath" Filterable="true" Title="Relative Path" Width="500px" Visible="true" />
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Path" Filterable="false" Title="Path" Width="500px" Visible="false">
+            <Template Context="indexEntry">
+                <span class="dcz-link" @onclick=@(_ => ShowInExplorer(indexEntry.Path))>
+                    @indexEntry.Path
+                </span>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Root.Path" Filterable="true" Title="Root Folder" Width="200px" Visible="false">
+            <Template Context="indexEntry">
+                <span class="dcz-link" @onclick=@(_ => ShowInExplorer(indexEntry.Root.Path))>
+                    @indexEntry.Root.Path
+                </span>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="RelativePath" Filterable="true" Title="Relative Path" Width="500px" Visible="false">
+            <Template Context="indexEntry">
+                <span class="dcz-link" @onclick=@(_ => ShowInExplorer(indexEntry.Path))>
+                    @indexEntry.RelativePath
+                </span>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="IndexEntry" Property="ContainerPath" Filterable="false" Title="Location" Width="500px" Visible="true">
+            <Template Context="indexEntry">
+                <span class="dcz-link" @onclick=@(_ => ShowInExplorer(indexEntry.ContainerPath))>
+                    @indexEntry.ContainerPath
+                </span>
+            </Template>
+        </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="IndexEntry" Property="LastSeen" Filterable="true" Title="Last seen" Width="200px" Visible="true">
             <Template Context="indexEntry">
                 @if (indexEntry.LastSeen.HasValue)

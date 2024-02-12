@@ -58,11 +58,11 @@ public partial class Indexation: ComponentBase, IDisposable
 
 
 
-    public async Task ResetDb()
+    public async Task WipeDb()
     {
-        TTrace.Debug.Send("Enter", "Home.ResetDb");
+        TTrace.Debug.Send("Enter", "Home.WipeDb");
         await IdxManager.ResetIndexAsync();        
-        TTrace.Debug.Send("Leave", "Home.ResetDb");
+        TTrace.Debug.Send("Leave", "Home.WipeDb");
     }
 
     public async Task StartIndexation()
