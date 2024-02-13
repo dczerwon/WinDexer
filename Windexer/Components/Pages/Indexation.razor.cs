@@ -56,8 +56,6 @@ public partial class Indexation: ComponentBase, IDisposable
         return base.OnAfterRenderAsync(firstRender);
     }
 
-
-
     public async Task WipeDb()
     {
         TTrace.Debug.Send("Enter", "Home.WipeDb");
@@ -70,6 +68,7 @@ public partial class Indexation: ComponentBase, IDisposable
         TTrace.Debug.Send("Enter", "Home.StartIndexation");
         _console.Clear();
         await IdxManager.RunIndexation();
+        _console.CleanUp();
         TTrace.Debug.Send("Leave", "Home.StartIndexation");
     }
 

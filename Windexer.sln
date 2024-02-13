@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDexer", "WinDexer\WinDex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDexer.Model", "WinDexer.Model\WinDexer.Model.csproj", "{0972E749-9E59-49B9-BB7B-FD11F7222EFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeForEfMigrations", "FakeForEfMigrations\FakeForEfMigrations.csproj", "{A4149EF9-A749-47B4-99F5-845462EBD55C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{0972E749-9E59-49B9-BB7B-FD11F7222EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0972E749-9E59-49B9-BB7B-FD11F7222EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0972E749-9E59-49B9-BB7B-FD11F7222EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4149EF9-A749-47B4-99F5-845462EBD55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4149EF9-A749-47B4-99F5-845462EBD55C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4149EF9-A749-47B4-99F5-845462EBD55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4149EF9-A749-47B4-99F5-845462EBD55C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

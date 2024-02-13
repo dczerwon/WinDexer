@@ -9,13 +9,13 @@ namespace WinDexer.Components.Shared
         [Inject] IJSRuntime JsRuntime { get; set; } = null!;
 
         private bool _paused;
-        private bool _truncateMessageAdded;
+        private Message? _truncateMessage;
         private class Message
         {
-            public DateTime Date { get; set; }
+            public DateTime Date { get; set; } = DateTime.Now;
             public string Text { get; set; } = null!;
             public AlertStyle Style { get; set; }
-            public bool CanBeDeleted { get; set; }
+            public bool CanBeDeleted { get; set; } = true;
         }
 
         [Parameter(CaptureUnmatchedValues = true)]
@@ -33,6 +33,8 @@ namespace WinDexer.Components.Shared
         private void OnPauseClick()
         {
             _paused = !_paused;
+            if (!_paused)
+                InvokeAsync(StateHasChanged);
         }
 
         void OnClearClick() => Clear();
@@ -40,7 +42,7 @@ namespace WinDexer.Components.Shared
         public void Clear()
         {
             _messages.Clear();
-            _truncateMessageAdded = false;
+            _truncateMessage = null;
             if (!_paused)
                 InvokeAsync(StateHasChanged);
         }
@@ -51,14 +53,14 @@ namespace WinDexer.Components.Shared
                           && alertStyle != AlertStyle.Warning
                           && alertStyle != AlertStyle.Success;
 
-            _messages.Add(new Message { Date = DateTime.Now, Text = message, Style = alertStyle, CanBeDeleted = canBeDeleted.Value });
+            _messages.Add(new Message { Text = message, Style = alertStyle, CanBeDeleted = canBeDeleted.Value });
 
             if (_messages.Count > 200)
             {
                 AddTruncateMessage();
 
                 var nbToDelete = _messages.Count - 200;
-                var toDelete = _messages.Where(m_ => m_.CanBeDeleted).Take(nbToDelete);
+                var toDelete = _messages.Where(m_ => m_.CanBeDeleted && m_ != _truncateMessage).Take(nbToDelete);
                 _messages = _messages.Except(toDelete).ToList();
                 
             }
@@ -68,14 +70,21 @@ namespace WinDexer.Components.Shared
 
         public void AddTruncateMessage()
         {
-            if (_truncateMessageAdded)
+            if (_truncateMessage != null)
                 return;
             
-            _truncateMessageAdded = true;
+            _truncateMessage = new Message { Text = "...", Style = AlertStyle.Base };
             var truncPos = _messages.FindIndex(i_ => i_.CanBeDeleted);
             if (truncPos < 0)
                 truncPos = _messages.Count;
-            _messages.Insert(truncPos, new Message { Date = DateTime.Now, Text = "...", CanBeDeleted = false, Style = AlertStyle.Base });
+            _messages.Insert(truncPos, _truncateMessage);
+        }
+
+        public void CleanUp()
+        {
+            _messages = _messages.Where(m_ => !m_.CanBeDeleted).ToList();
+            if (!_paused)
+                InvokeAsync(StateHasChanged);
         }
     }
 }

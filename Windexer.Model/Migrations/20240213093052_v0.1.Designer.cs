@@ -11,8 +11,8 @@ using WinDexer.Model.Context;
 namespace WinDexer.Model.Migrations
 {
     [DbContext(typeof(WinDexerContext))]
-    [Migration("20240120104328_Initial")]
-    partial class Initial
+    [Migration("20240213093052_v0.1")]
+    partial class v01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,10 +26,15 @@ namespace WinDexer.Model.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContainerPath")
+                        .HasMaxLength(2048)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreationTimeUtc")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Extension")
+                        .HasMaxLength(16)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("FilesCount")
@@ -54,13 +59,20 @@ namespace WinDexer.Model.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("ParentIndexEntryId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("RelativePath")
                         .IsRequired()
+                        .HasMaxLength(2048)
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("RootFolderId")
@@ -74,9 +86,22 @@ namespace WinDexer.Model.Migrations
 
                     b.HasKey("IndexEntryId");
 
+                    b.HasIndex("IndexationDate");
+
+                    b.HasIndex("IsFolder");
+
+                    b.HasIndex("Name");
+
                     b.HasIndex("ParentIndexEntryId");
 
+                    b.HasIndex("RelativePath");
+
                     b.HasIndex("RootFolderId");
+
+                    b.HasIndex("StillFound");
+
+                    b.HasIndex("RootFolderId", "RelativePath")
+                        .IsUnique();
 
                     b.ToTable("IndexEntry", (string)null);
                 });
@@ -95,10 +120,12 @@ namespace WinDexer.Model.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Path")
                         .IsRequired()
+                        .HasMaxLength(2048)
                         .HasColumnType("TEXT");
 
                     b.Property<bool?>("StillFound")
@@ -106,13 +133,24 @@ namespace WinDexer.Model.Migrations
 
                     b.HasKey("RootFolderId");
 
+                    b.HasIndex("Enabled");
+
+                    b.HasIndex("IndexationDate");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("Path")
+                        .IsUnique();
+
+                    b.HasIndex("StillFound");
+
                     b.ToTable("RootFolder", (string)null);
                 });
 
             modelBuilder.Entity("WinDexer.Model.Entities.IndexEntry", b =>
                 {
                     b.HasOne("WinDexer.Model.Entities.IndexEntry", "Parent")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentIndexEntryId");
 
                     b.HasOne("WinDexer.Model.Entities.RootFolder", "Root")
@@ -124,6 +162,11 @@ namespace WinDexer.Model.Migrations
                     b.Navigation("Parent");
 
                     b.Navigation("Root");
+                });
+
+            modelBuilder.Entity("WinDexer.Model.Entities.IndexEntry", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("WinDexer.Model.Entities.RootFolder", b =>

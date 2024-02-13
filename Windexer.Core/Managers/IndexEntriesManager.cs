@@ -11,17 +11,21 @@ namespace WinDexer.Core.Managers
         {
             var fileInfo = fsInfo as FileInfo;
             var dirinfo = fsInfo as DirectoryInfo;
+            var name = Path.GetFileNameWithoutExtension(fsInfo.Name);
+            if (name == string.Empty)
+                name = fsInfo.FullName;
 
             TTrace.Debug.Send($"Add index entry", fsInfo.FullName);
             var entry = new IndexEntry
             {
                 IndexEntryId = Guid.NewGuid(),
-                Name = Path.GetFileNameWithoutExtension(fsInfo.Name),
+                Name = name,
                 ContainerPath = fileInfo?.Directory?.FullName ?? dirinfo?.Parent?.FullName,
                 Extension = fsInfo.Extension,
                 StillFound = fsInfo.Exists,
                 LastSeen = fsInfo.Exists ? IndexationManager.IndexationStart : null,
                 Parent = parent,
+                Path = fsInfo.FullName,
                 RelativePath = Path.GetRelativePath(root.Path, fsInfo.FullName),
                 Root = root,
                 IsFolder = dirinfo != null,

@@ -29,7 +29,7 @@ public class WinDexerContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        Directory.CreateDirectory(DbFolder);
+        Directory.CreateDirectory(DbFolder);        
         optionsBuilder.UseSqlite($"Data Source={DbPath};");        
     }
 
@@ -38,4 +38,5 @@ public class WinDexerContext : DbContext
         modelBuilder.Entity<RootFolder>().ToTable(nameof(RootFolder));
         modelBuilder.Entity<IndexEntry>().ToTable(nameof(IndexEntry));        
     }
+    
 }

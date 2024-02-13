@@ -14,7 +14,7 @@
     FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
     AllowColumnResize="true" 
     AllowAlternatingRows="true" 
-    AllowSorting="false"
+    AllowSorting="true"
     PageSize="50" 
     AllowPaging="true"
     ShowPagingSummary="true"    
@@ -29,7 +29,7 @@
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="IndexEntry" Property="Extension" Filterable="true" Title="Extension" Width="70px" />
-        <RadzenDataGridColumn TItem="IndexEntry" Property="Path" Filterable="false" Title="Path" Width="500px" Visible="false">
+        <RadzenDataGridColumn TItem="IndexEntry" Property="Path" Filterable="true" Title=" Path" Width="500px" Visible="false">
             <Template Context="indexEntry">
                 <span class="dcz-link" @onclick=@(_ => ShowInExplorer(indexEntry.Path))>
                     @indexEntry.Path
@@ -50,11 +50,11 @@
                 </span>
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="IndexEntry" Property="ContainerPath" Filterable="false" Title="Location" Width="500px" Visible="true">
+        <RadzenDataGridColumn TItem="IndexEntry" Property="ContainerPath" Filterable="true" Title="Location" Width="500px" Visible="true">
             <Template Context="indexEntry">
                 <span class="dcz-link" @onclick=@(_ => ShowInExplorer(indexEntry.ContainerPath))>
                     @indexEntry.ContainerPath
-                </span>
+                </span> 
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="IndexEntry" Property="LastSeen" Filterable="true" Title="Last seen" Width="200px" Visible="true">

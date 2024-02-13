@@ -15,7 +15,7 @@ public class DbManager
     public DbManager(WinDexerContext context)
     {
         _context = context;
-        _context.Database.EnsureCreated(); // This will create the database if it doesn't exist        
+        _context.Database.Migrate();
     }
 
     public async Task<FilteredListResponse<TEntity>> GetAsync<TEntity>(IQueryable<TEntity> query, FilteredListRequest request) where TEntity: class, IEntity, new()
@@ -81,8 +81,8 @@ public class DbManager
     public async Task ResetDbAsync()
     {
         await _context.Database.CloseConnectionAsync();
-        File.Delete(WinDexerContext.DbPath);
-        await _context.Database.EnsureCreatedAsync();
+        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.MigrateAsync();
     }
 
     public async Task AddFakeData()

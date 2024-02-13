@@ -8,7 +8,7 @@ public class FilteredListRequest
     public IQueryable<TEntity> ApplyOrderBy<TEntity>(IQueryable<TEntity> query) where TEntity : IEntity
     {
         if (!string.IsNullOrEmpty(OrderBy))
-            return query.Where(OrderBy);
+            return query.OrderBy(OrderBy);
 
         if (typeof(TEntity) == typeof(IndexEntry))
         {

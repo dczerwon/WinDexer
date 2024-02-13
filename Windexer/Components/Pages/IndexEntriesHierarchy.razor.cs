@@ -95,8 +95,11 @@ public partial class IndexEntriesHierarchy : ComponentBase
         Process.Start(pi);
     }
 
-    public void ShowInExplorer(string path)
+    public void ShowInExplorer(string? path)
     {
+        if (string.IsNullOrEmpty(path))
+            return;
+
         var pi = new ProcessStartInfo("explorer.exe", $"/select,\"{path}\"");
         pi.UseShellExecute = false;
         Process.Start(pi);
