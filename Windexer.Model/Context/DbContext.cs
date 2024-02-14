@@ -5,8 +5,8 @@ namespace WinDexer.Model.Context;
 
 public class WinDexerContext : DbContext
 {
-    private static string DbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RyoSaebaSan", "WinDexer");
-    public static string DbPath = Path.Combine(DbFolder, "WinDexer.db");
+    private static readonly string DbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RyoSaebaSan", "WinDexer");
+    private static readonly string DbPath = Path.Combine(DbFolder, "WinDexer.db");
 
     public DbSet<RootFolder> RootFolderSet { get; set; } = null!;
     public DbSet<IndexEntry> IndexEntrySet { get; set; } = null!;

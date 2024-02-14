@@ -5,7 +5,6 @@ using WinDexer.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using WinDexer.Core.ViewModels;
 using System.Diagnostics;
-using Radzen.Blazor;
 
 namespace WinDexer.Components.Pages;
 

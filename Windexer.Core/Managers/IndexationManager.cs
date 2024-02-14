@@ -13,7 +13,7 @@ public enum MessageLevel
     Error
 }
 
-public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntriesManager _indexEntriesManager, DbManager _dbManager)
+public class IndexationManager
 {
     private Dictionary<string, IndexEntry> _existingEntriesByPath = null!;
     public static DateTime? IndexationStart => _indexationStart;
@@ -40,6 +40,16 @@ public class IndexationManager(RootFoldersManager _rootFoldersManager, IndexEntr
         }
     }
     private long _foldersFound;
+    private readonly RootFoldersManager _rootFoldersManager;
+    private readonly IndexEntriesManager _indexEntriesManager;
+    private readonly DbManager _dbManager;
+
+    public IndexationManager(RootFoldersManager rootFoldersManager, IndexEntriesManager indexEntriesManager, DbManager dbManager)
+    {
+        _rootFoldersManager = rootFoldersManager;
+        _indexEntriesManager = indexEntriesManager;
+        _dbManager = dbManager;
+    }
 
 
     public Action? OnCountChange { get; set; }
